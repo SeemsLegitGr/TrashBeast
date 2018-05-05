@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TrashBeast</string>
+    <string name="MapBoxKEY">pk.eyJ1Ijoia3Jpc2ltZW4iLCJhIjoiY2o4c2xlNmEzMDk2azMycjBqM3J0ZXdsMCJ9.O6RwR4phSWHd1cznwDGixg</string>
+    <string-array name="spinner_list">
+        <item name ="mode1">mode</item>
+        <item name ="mode1">mode</item>
+        <item name ="mode1">mode</item>
+    </string-array>
 </resources>
