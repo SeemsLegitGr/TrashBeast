@@ -1,4 +1,4 @@
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/SeemsLegitGr/serres-hackathon-2018.svg?columns=all)](https://waffle.io/SeemsLegitGr/serres-hackathon-2018)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/SeemsLegitGr/TrashBeast.svg?columns=all)](https://waffle.io/SeemsLegitGr/TrashBeast) 
 # TrashBeast
 # serres-hackathon-2018
 serres-hackathon-2018
