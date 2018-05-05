@@ -11,17 +11,25 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
+import gr.seemslegit.trashbeast.Client.VillageClient;
 import gr.seemslegit.trashbeast.Controllers.Request;
 import gr.seemslegit.trashbeast.Controllers.ZoomOutPageTransformer;
+import gr.seemslegit.trashbeast.Models.Village;
 import gr.seemslegit.trashbeast.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,9 +56,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        Request request = new Request(this);
+       // Request request = new Request(this);
+
+        /*Create handle for the RetrofitInstance interface*/
 
     }
+
+
 
     public void showBottomSheetDialogFragment() {
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();

@@ -16,13 +16,11 @@ public class MapController {
     public MapController(MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
     }
-    public static void AddMarkers (MarkerOptions marker){
-        mapboxMap.addMarker(marker);
+    public static void AddMarkers (LatLng coordinates, String name){
+        MarkerOptions options = new MarkerOptions().position(coordinates).title(name);
+        mapboxMap.addMarker(options);
     }
     public void OnMapReady(String Mode) {
-        ArrayList<Village> villageArray = new ArrayList<>();
-
-
 
         mapboxMap.addMarker(new MarkerOptions().position(new LatLng(41.885, -87.679))
                 .title("Chicago")

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.Menu;
@@ -27,8 +28,16 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import com.mapbox.mapboxsdk.Mapbox;
 
+import java.util.List;
+
+import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
+import gr.seemslegit.trashbeast.Client.VillageClient;
 import gr.seemslegit.trashbeast.Controllers.MapController;
+import gr.seemslegit.trashbeast.Models.Village;
 import gr.seemslegit.trashbeast.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MainActivity mainActivity;
@@ -147,6 +156,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(MapboxMap mapboxMap) {
         MapController mapController = new MapController(mapboxMap);
         mapController.OnMapReady("mode");
+        VillageClient service = RetrofitClientInstance.getRetrofitInstance().create( VillageClient.class);
+        Call<List<Village>> call = service.getAll();
+        call.enqueue(new Callback<List<Village>>() {
+            @Override
+            public void onResponse(Call<List<Village>> call, Response<List<Village>> response) {
+                List<Village> villages = response.body();
+
+                //  progressDoalog.dismiss();
+                Log.w("POSTANSKDM","WE FUCKIN MADE It");
+                generateDataList(villages);
+            }
+
+            @Override
+            public void onFailure(Call<List<Village>> call, Throwable t) {
+                //  progressDoalog.dismiss();
+                Toast.makeText(mainActivity, "we didnt.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    /*Method to generate List of data using RecyclerView with custom adapter*/
+    private void generateDataList(List<Village> villages) {
+        for (int i = 0; i< villages.size(); i++){
+            villages.get(i).MarkVillage();
+        }
     }
 
 }

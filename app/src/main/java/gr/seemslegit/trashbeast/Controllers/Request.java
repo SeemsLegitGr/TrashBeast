@@ -74,7 +74,7 @@ public class Request {
                 JSONObject jsonObj = new JSONObject(jsonStr);
 
                 // Getting JSON Array node
-                JSONArray villages = jsonObj.getJSONArray("villages");
+                JSONArray villages = jsonObj.getJSONArray("village");
 
                 // looping through All Contacts
                 for (int i = 0; i < villages.length(); i++) {
@@ -84,10 +84,10 @@ public class Request {
                     Double Lat = c.getDouble("latitude");
                     Double Lng = c.getDouble("longitude");
                     LatLng latLng = new LatLng(Lat,Lng);
-                    Village village = new Village(name,latLng,false);
-                    MapController.AddMarkers(village.MarkVillage());
+                    //Village village = new Village(name,latLng,false);
+                   // MapController.AddMarkers(village.MarkVillage());
 
-                    villageList.add(village);
+                    //villageList.add(village);
                 }
             } catch (final JSONException e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
