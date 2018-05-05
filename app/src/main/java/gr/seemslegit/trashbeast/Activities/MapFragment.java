@@ -27,6 +27,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import com.mapbox.mapboxsdk.Mapbox;
 
+import gr.seemslegit.trashbeast.Controllers.MapController;
 import gr.seemslegit.trashbeast.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -144,7 +145,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
-
+        MapController mapController = new MapController(mapboxMap);
+        mapController.OnMapReady("mode");
     }
 
 }
