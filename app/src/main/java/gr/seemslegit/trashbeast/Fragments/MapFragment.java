@@ -1,4 +1,4 @@
-package gr.seemslegit.trashbeast.Activities;
+package gr.seemslegit.trashbeast.Fragments;
 
 
 import android.content.Context;
@@ -22,17 +22,23 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import com.mapbox.mapboxsdk.Mapbox;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import gr.seemslegit.trashbeast.Activities.MainActivity;
 import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
 import gr.seemslegit.trashbeast.Client.VillageClient;
 import gr.seemslegit.trashbeast.Controllers.MapController;
+import gr.seemslegit.trashbeast.Controllers.ScrollMapView;
 import gr.seemslegit.trashbeast.Models.Village;
 import gr.seemslegit.trashbeast.R;
 import retrofit2.Call;
@@ -41,8 +47,9 @@ import retrofit2.Response;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MainActivity mainActivity;
-    private MapView mapView;
+    private ScrollMapView mapView;
     private Toolbar toolbar;
+    private MapboxMap map;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
     }
 
     @Override
@@ -84,6 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -154,32 +163,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
-        MapController mapController = new MapController(mapboxMap);
+        map = mapboxMap;
+        MapController mapController = new MapController(mapboxMap, mainActivity);
         mapController.OnMapReady("mode");
-        VillageClient service = RetrofitClientInstance.getRetrofitInstance().create( VillageClient.class);
-        Call<List<Village>> call = service.getAll();
-        call.enqueue(new Callback<List<Village>>() {
-            @Override
-            public void onResponse(Call<List<Village>> call, Response<List<Village>> response) {
-                List<Village> villages = response.body();
 
-                //  progressDoalog.dismiss();
-                Log.w("POSTANSKDM","WE FUCKIN MADE It");
-                generateDataList(villages);
-            }
-
-            @Override
-            public void onFailure(Call<List<Village>> call, Throwable t) {
-                //  progressDoalog.dismiss();
-                Toast.makeText(mainActivity, "we didnt.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(List<Village> villages) {
-        for (int i = 0; i< villages.size(); i++){
-            villages.get(i).MarkVillage();
-        }
     }
 
+
+    public void showBottomSheetDialogFragment(List<Village> villages) {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(villages);
+        bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
+    }
 }

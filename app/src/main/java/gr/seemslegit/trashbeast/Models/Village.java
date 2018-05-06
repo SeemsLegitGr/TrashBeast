@@ -19,7 +19,7 @@ public class Village {
         this.passed = passed;
     }
 
-    private void DoubleToLatLng (){
+    public void DoubleToLatLng(){
         coordinates = new LatLng(latitude,longitude);
     }
 
@@ -32,6 +32,7 @@ public class Village {
     }
 
     public LatLng getCoordinates() {
+        DoubleToLatLng();
         return coordinates;
     }
 
@@ -47,8 +48,4 @@ public class Village {
         this.passed = passed;
     }
 
-    public void MarkVillage(){
-        DoubleToLatLng();
-        MapController.AddMarkers(this.coordinates,this.name);
-    }
 }

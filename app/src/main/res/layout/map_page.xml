@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true">
 
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <gr.seemslegit.trashbeast.Controllers.ScrollMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -35,5 +35,5 @@
                 android:ellipsize="marquee"/>
 
     </android.support.v7.widget.Toolbar>
-    </com.mapbox.mapboxsdk.maps.MapView>
+    </gr.seemslegit.trashbeast.Controllers.ScrollMapView>
 </RelativeLayout>

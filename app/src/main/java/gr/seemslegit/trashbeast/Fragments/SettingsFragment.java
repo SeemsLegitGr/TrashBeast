@@ -1,4 +1,4 @@
-package gr.seemslegit.trashbeast.Activities;
+package gr.seemslegit.trashbeast.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,8 @@ import gr.seemslegit.trashbeast.R;
 
 public class SettingsFragment extends Fragment {
 
-    public SettingsFragment(){}
+    public SettingsFragment() {
+    }
 
     @Nullable
     @Override

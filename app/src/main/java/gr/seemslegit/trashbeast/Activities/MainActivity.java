@@ -1,37 +1,24 @@
 package gr.seemslegit.trashbeast.Activities;
 
-import android.support.annotation.NonNull;
+
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
-import gr.seemslegit.trashbeast.Client.VillageClient;
-import gr.seemslegit.trashbeast.Controllers.Request;
+import gr.seemslegit.trashbeast.Controllers.ViewPagerAdapter;
 import gr.seemslegit.trashbeast.Controllers.ZoomOutPageTransformer;
-import gr.seemslegit.trashbeast.Models.Village;
+import gr.seemslegit.trashbeast.Fragments.BottomSheetFragment;
+import gr.seemslegit.trashbeast.Fragments.MapFragment;
+import gr.seemslegit.trashbeast.Fragments.SettingsFragment;
 import gr.seemslegit.trashbeast.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-
+/**
+ * Controls  the fragments.
+ */
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -44,29 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        layoutBottomSheet = findViewById(R.id.bottom_sheet);
-
-        showBottomSheetDialogFragment();
-        //   Add Fragments to adapter one by one
-        adapter.addFragment(new MapFragment(), "Map");
-        adapter.addFragment(new SettingsFragment(), "Statistics");
-        viewPager.setAdapter(adapter);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-       // Request request = new Request(this);
-
-        /*Create handle for the RetrofitInstance interface*/
-
-    }
-
-
-
-    public void showBottomSheetDialogFragment() {
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        SetViews();
+       // showBottomSheetDialogFragment();
     }
 
     @Override
@@ -81,34 +47,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // Adapter for the viewpager using FragmentPagerAdapter
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+    public void SetViews() {
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new MapFragment(), "Map");
+        adapter.addFragment(new SettingsFragment(), "Statistics");
+        viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        layoutBottomSheet = findViewById(R.id.bottom_sheet);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+    /**
+     * Bottom sheet dialog TODO: SHOW ON CALLBACK
+     */
+    public void showBottomSheetDialogFragment() {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+
 }
