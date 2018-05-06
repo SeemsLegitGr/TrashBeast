@@ -18,6 +18,8 @@ Install APK.
 None...... yet.
 
 ## Live demo
+![altText](GIF3-1.gif)
+![altText](GIF3.gif)
 
 ## License
 
