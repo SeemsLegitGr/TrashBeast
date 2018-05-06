@@ -1,7 +1,10 @@
 package gr.seemslegit.trashbeast.Controllers;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -19,6 +23,8 @@ import java.util.List;
 
 import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
 import gr.seemslegit.trashbeast.Client.VillageClient;
+import gr.seemslegit.trashbeast.Fragments.BottomSheetFragment;
+import gr.seemslegit.trashbeast.Fragments.DataRefresh;
 import gr.seemslegit.trashbeast.Models.Village;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,12 +32,12 @@ import retrofit2.Response;
 
 public class MapController implements MapboxMap.OnMapClickListener,  MapboxMap.OnMarkerClickListener {
     private static MapboxMap mapboxMap;
-    private Activity activity;
-    private List<Village> villageDataSet;
+    private Context activity;
+    public static List<Village> villageDataSet;
     private ArrayList<MarkerOptions> markers = new ArrayList<>();
-    ;
+    public static DataRefresh dataRefresh ;
 
-    public MapController(MapboxMap mapboxMap, Activity activity) {
+    public MapController(MapboxMap mapboxMap, Context activity) {
         this.mapboxMap = mapboxMap;
         this.activity = activity;
     }
@@ -70,6 +76,13 @@ public class MapController implements MapboxMap.OnMapClickListener,  MapboxMap.O
                 .build(); // Creates a CameraPosition from the builder
         mapboxMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(position), 7000);
+        DirectionController directionController = new DirectionController(activity);
+
+        for (int i = 0 ; i < villages.size() - 1 ; i++){
+            directionController.request(markers.get(i).getPosition(),markers.get(i+1).getPosition());
+        }
+        dataRefresh.notifyChange();
+
     }
 
     private void GetInfoFromBackEnd() {
@@ -122,6 +135,15 @@ public class MapController implements MapboxMap.OnMapClickListener,  MapboxMap.O
         mapboxMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(position), 7000);
         return false;
+    }
+    public  static void  DrawPointsOnMap(LatLng[] latLngs){
+        mapboxMap.addPolyline(new PolylineOptions()
+        .add(latLngs)
+        .color(Color.parseColor("#3887be"))
+                .width(5));
+    }
+    public void RegisterCallback(DataRefresh dataRefresh){
+        this.dataRefresh = dataRefresh;
     }
 }
 

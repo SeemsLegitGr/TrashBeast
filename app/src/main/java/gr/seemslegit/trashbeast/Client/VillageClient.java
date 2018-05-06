@@ -11,8 +11,9 @@ import retrofit2.http.Query;
 
 public interface VillageClient {
 
-    @GET("getAllVillages")
+    @GET("findOptimal")
     Call<List<Village>> getAll();
+
 
     @POST("addVillage")
     Call<Village> create(@Body Village village);

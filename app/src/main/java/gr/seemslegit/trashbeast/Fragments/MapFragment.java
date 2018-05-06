@@ -33,6 +33,7 @@ import com.mapbox.mapboxsdk.Mapbox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import gr.seemslegit.trashbeast.Activities.MainActivity;
 import gr.seemslegit.trashbeast.Client.RetrofitClientInstance;
@@ -45,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback , DataRefresh{
     private MainActivity mainActivity;
     private ScrollMapView mapView;
     private Toolbar toolbar;
@@ -54,6 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -81,6 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
 
     }
 
@@ -165,13 +168,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
         MapController mapController = new MapController(mapboxMap, mainActivity);
+        mapController.RegisterCallback(this);
         mapController.OnMapReady("mode");
 
     }
 
-
     public void showBottomSheetDialogFragment(List<Village> villages) {
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(villages);
         bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    @Override
+    public void notifyChange() {
+        showBottomSheetDialogFragment(MapController.villageDataSet);
     }
 }
